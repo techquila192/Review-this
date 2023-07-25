@@ -6,3 +6,5 @@ const reviewerSchema = mongoose.Schema({
         unique: true
     }
 })
+
+module.exports = mongoose.model("Reviewer",reviewerSchema)
