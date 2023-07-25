@@ -34,4 +34,14 @@ router.delete('/delete-user',async(req,res)=>
     res.status(200).json(result);
 })
 
+router.patch('/update-user',async(req,res)=>{
+    const oldEmail=req.body.oldEmail;
+    const newEmail=req.body.newEmail;
+    const newFullName=req.body.newFullName;
+    const result=await userFunctions.updateUser(oldEmail,newEmail,newFullName).catch((err)=>{
+        res.status(500).json(err);
+    })
+    res.status(200).json(result);
+})
+
 module.exports=router;

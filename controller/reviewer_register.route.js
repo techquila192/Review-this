@@ -30,4 +30,14 @@ router.delete('/delete-reviewer',async (req,res)=>{
     res.status(200).json(result);
 })
 
+router.patch('/update-reviewer',async (req,res)=>{
+    const oldGithub=req.body.oldGithub;
+    const newGithub=req.body.newGithub;
+    const result=await reviewerFunctions.updateReviewer(oldGithub,newGithub).catch((err)=>{
+        res.status(500).json(err);
+    })
+    res.status(200).json(result);
+})
+
 module.exports=router;
+

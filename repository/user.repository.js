@@ -15,10 +15,9 @@ const userFunctions = {
         const result = await user.find()
         return result
     },
-    updateUser : async (email,fullName)=>{
-        const result = await user.updateOne({email:email},{
-            fullName:fullName
-        })
+    updateUser : async (oldEmail,newEmail,newFullName)=>{
+        const result = await user.updateOne({email:oldEmail},{
+            $set: {email:newEmail, fullName:newFullName}})
         return result
     },
     deleteUser : async (email)=>{
