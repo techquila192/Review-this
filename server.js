@@ -16,6 +16,6 @@ app.use("/api", indexRoute)
 
 
 app.listen(port, async () => {
-    mongoose.connect(process.env.MONGO_URL).then(() => {console.log("Connected to database")})
+    await mongoose.connect(process.env.MONGO_URL).then(() => {console.log("Connected to database")})
     console.log(`Server is running on port ${port}`)
 })
