@@ -1,4 +1,5 @@
 const user = require("../model/user.model")
+const project = require("../model/project.model")
 const userFunctions = {
     addUser : async (email,fullName)=>{
         const newUser = new user({
@@ -23,6 +24,17 @@ const userFunctions = {
     deleteUser : async (email)=>{
         const result = await user.deleteOne({email:email})
         return result
+    },
+    addProject : async (name , description , startDate , endDate , projectManager , reviewer)=>{
+        const managerId = await user.findOne({email:projectManager})
+        const newProject = new project({
+            name:name,
+            description:description,
+            startDate:startDate,
+            endDate:endDate,
+            projectManager:managerId._id
+        })
+        return await newProject.save()
     }
 }
 module.exports = userFunctions

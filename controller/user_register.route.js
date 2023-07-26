@@ -44,4 +44,12 @@ router.patch('/update-user',async(req,res)=>{
     res.status(200).json(result);
 })
 
+router.post('/add-project',async(req,res)=>{
+    const {name , description , startDate , endDate , projectManager , reviewer}=req.body;
+    const result=await userFunctions.addProject(name , description , startDate , endDate , projectManager).catch((err)=>{
+        res.status(500).json(err);
+    })
+    res.status(200).json(result);
+})
+
 module.exports=router;

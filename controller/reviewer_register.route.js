@@ -39,5 +39,12 @@ router.patch('/update-reviewer',async (req,res)=>{
     res.status(200).json(result);
 })
 
+router.patch('/add-reviewer',async (req,res)=>{
+    const project_id=req.body.project_id
+    const result=await reviewerFunctions.addReviewer(project_id).catch((err)=>{
+        res.status(500).json(err);
+    })
+    res.status(200).json(result);
+})
 module.exports=router;
 
