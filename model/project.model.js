@@ -6,11 +6,12 @@ const projectSchema = mongoose.Schema({
     },
     github_url: {
         type: String,
-        required: true
+        required:true
     },
     description: String,
     startDate: Date,
     endDate: Date,
+    active: String,             //active,inactive or in_progress
     projectManager: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
