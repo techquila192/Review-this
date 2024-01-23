@@ -1,5 +1,4 @@
 const reviewer = require("../model/reviewer.model")
-const project = require("../model/project.model")
 const reviewerFunctions = {
     addReviewer : async (github)=>{
         const newReviewer = new reviewer({
@@ -23,11 +22,6 @@ const reviewerFunctions = {
     deleteReviewer : async (github)=>{
         const result = await reviewer.deleteOne({github:github})
         return result
-    },
-    insertReviewer : async (reviewer_github , project_id)=>{
-        const reviewer = await reviewer.findOne({github:reviewer_github})
-        const project = await project.findOneAndUpdate({_id:project_id}, {$set:{reviewer:reviewer._id}})
-        return result
-    },
+    }
 }
 module.exports = reviewerFunctions

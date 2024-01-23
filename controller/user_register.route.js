@@ -2,6 +2,7 @@ const express=require('express');
 const router= express.Router();
 const userFunctions = require("../repository/user.repository")
 
+
 router.post('/user-register',async (req,res)=>{
     const email=req.body.email;
     const fullName=req.body.fullName;
@@ -39,14 +40,6 @@ router.patch('/update-user',async(req,res)=>{
     const newEmail=req.body.newEmail;
     const newFullName=req.body.newFullName;
     const result=await userFunctions.updateUser(oldEmail,newEmail,newFullName).catch((err)=>{
-        res.status(500).json(err);
-    })
-    res.status(200).json(result);
-})
-
-router.post('/add-project',async(req,res)=>{
-    const {name , description , startDate , endDate , projectManager , reviewer}=req.body;
-    const result=await userFunctions.addProject(name , description , startDate , endDate , projectManager).catch((err)=>{
         res.status(500).json(err);
     })
     res.status(200).json(result);
