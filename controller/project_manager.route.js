@@ -33,5 +33,13 @@ router.get('/get-project-url',async (req,res)=>{
     res.status(200).json(result);
 })
 
+router.get('/get-project-id',async (req,res)=>{
+    const {project_id}=req.body;
+    const result=await projectFunctions.getProjectByID(project_id).catch((err)=>{
+        res.status(500).json(err);
+    })
+    res.status(200).json(result);
+})
+
 module.exports=router
 
