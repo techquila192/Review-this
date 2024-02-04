@@ -1,14 +1,21 @@
 const express = require("express")
 const app = express()
-const port = 3000
+const port = 5000
+const dotenv = require("dotenv").config()
 const indexRoute = require("./controller/index.route")
 const mongoose = require("mongoose")
-const dotenv = require("dotenv").config()
+const cookieParser = require('cookie-parser');
+const clientID=process.env.GITHUB_CLIENT_ID;
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
 
 app.use(express.json())
 
 app.get("/", (req, res) => {
-    res.send("Home route")
+    res.render('server.ejs',{client_id: clientID, origin: req.protocol + '://' + req.get('host')});
+    console.log(req.get('Host'));
+    //res.send("Home route")
 })
 
 
