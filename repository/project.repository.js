@@ -32,6 +32,10 @@ const projectFunctions= {
     getProjectByURL: async (github_url)=>{
         const result = await project.find({github_url:github_url})
         return result
+    },
+    addFork: async (project_id,fork_url) =>{
+        const result = await project.updateOne({_id:project_id},{$set:{fork_url:fork_url}});
+        return result
     }
 }
 

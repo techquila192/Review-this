@@ -1,28 +1,34 @@
 const user = require("../model/user.model")
 const project = require("../model/project.model")
 const userFunctions = {
-    addUser : async (email,fullName)=>{
+    addUser : async (github)=>{
         const newUser = new user({
-            email:email,
-            fullName:fullName
+            github : github
         })
         return await newUser.save()
     },
-    getUser : async (email)=>{
-        const result = await user.findOne({email:email})
+    getUser : async (github)=>{
+        const result = await user.findOne({github:github})
         return result
     },
     getAllUser : async ()=>{
         const result = await user.find()
         return result
     },
-    updateUser : async (oldEmail,newEmail,newFullName)=>{
-        const result = await user.updateOne({email:oldEmail},{
-            $set: {email:newEmail, fullName:newFullName}})
+    updateUser : async (github,newGithub)=>{
+        const check = await user.findOne({github:newGithub}).catch(err=>{console.log(err)});
+        if(check)
+        {
+        const result = await user.updateOne({github:github},{$set:{github:newGithub}});
         return result
+        }
+        else
+        {
+            return  "User already exists";
+        }
     },
-    deleteUser : async (email)=>{
-        const result = await user.deleteOne({email:email})
+    deleteUser : async (github)=>{
+        const result = await user.deleteOne({github:github})
         return result
     }
 }

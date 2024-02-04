@@ -1,6 +1,8 @@
 const express=require('express');
 const router= express.Router();
 const projectFunctions = require("../repository/project.repository.js")
+const {Octokit} = require("octokit")
+
 
 router.post('/add-project',async (req,res)=>{
     const {name , description , startDate , endDate , projectManager, github_url}=req.body;
@@ -40,6 +42,50 @@ router.get('/get-project-id',async (req,res)=>{
     })
     res.status(200).json(result);
 })
+
+router.post('/add-fork',async (req,res)=>{
+    const {project_id,fork_url}=req.body;
+    const project= await projectFunctions.getProjectByID(project_id);
+    if(!project.fork_url){
+        const octokit = new Octokit({
+            auth: req.body.token
+        })
+    let parts = fork_url.split("/");
+    let repositoryName = parts[parts.length - 1];
+    if (repositoryName.endsWith(".git")) {
+        repositoryName = repositoryName.slice(0, -4); // Remove the last 4 characters (".git")
+    }
+    console.log(repositoryName);
+    const wh_create =  await octokit.request('POST /repos/{owner}/{repo}/hooks', {
+            owner: req.body.github,
+            repo:  repositoryName,
+            name: 'web',
+            active: true,
+            events: [
+              'push',
+              'pull_request'
+            ],
+            config: {
+              url: 'https://example.com/webhook',
+              content_type: 'json',
+              insecure_ssl: '0'
+            },
+            headers: {
+              'X-GitHub-Api-Version': '2022-11-28'
+            }
+          })   
+    }
+    const result = await projectFunctions.addFork(project_id,fork_url).catch((err)=>{
+        res.status(err).json(err);
+    })
+    res.status(200).json(result);
+})
+
+
+/*router.patch('/update-state', async (req, res)=>{
+    const {project_id, fork_url, state}=req.body; //close webhook when project is closed
+
+})*/
 
 module.exports=router
 

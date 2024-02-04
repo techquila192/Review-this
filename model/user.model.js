@@ -1,13 +1,9 @@
 const mongoose = require("mongoose")
 const userSchema = mongoose.Schema({
-    email: {
+    github: {
         type: String,
         required: true,
         unique: true
-    },
-    fullName: {
-        type: String,
-        required: true
     }
 })
 

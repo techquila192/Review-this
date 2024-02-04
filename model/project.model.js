@@ -8,6 +8,7 @@ const projectSchema = mongoose.Schema({
         type: String,
         required:true
     },
+    fork_url: String,
     description: String,
     startDate: Date,
     endDate: Date,
