@@ -26,3 +26,5 @@ catch(err){
 }
 
 }
+
+module.exports = authorization
