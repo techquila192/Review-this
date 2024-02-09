@@ -40,7 +40,6 @@ router.get('/user-github-login', async (req,res) => {
 
       console.log(username,name,picture);
       const user_exists = await userFunctions.getUser(username);
-      console.log(user_exists);
       if (!user_exists)
       {
       

@@ -5,6 +5,7 @@ const dotenv = require("dotenv").config()
 const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 exports.io = io;
+require("./controller/websocket.route.js")
 const indexRoute = require("./controller/index.route")
 const mongoose = require("mongoose")
 const cookieParser = require('cookie-parser');
