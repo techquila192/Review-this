@@ -35,4 +35,12 @@ router.patch('/update-user',async(req,res)=>{
     res.status(200).json(result);
 })
 
+router.get('/get-user-projects',async(req,res)=>{
+    const user = req.body.github;
+    const result = await userFunctions.getUserProject(user).catch((err)=>{ 
+        res.status(500).json(err);
+    })
+    res.status(200).json(result);
+})
+
 module.exports=router;

@@ -32,5 +32,13 @@ router.patch('/update-reviewer',async (req,res)=>{
     res.status(200).json(result);
 })
 
+router.get('/get-reviewer-projects',async(req,res)=>{
+    const github = req.body.github;
+    const result = await reviewerFunctions.getReviewerProject(github).catch((err)=>{ 
+        res.status(500).json(err);
+    })
+    res.status(200).json(result);
+})
+
 module.exports=router;
 

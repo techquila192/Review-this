@@ -41,12 +41,14 @@ router.get('/reviewer-github-login', async(req, res) => {
       if (!reviewer_exists)
       {
       // add user info to body and redirect to sign up
-      res.send("Sign up");
+      const result = await reviewerFunctions.addReviewer(username).catch((err)=>{
+        res.status(500).json(err);
+      })
       //sign up page
       }
 
       const jwt_token=jwt.sign({ username: username, name:name, picture:picture, type : "reviewer", token : access_token},secret_key);
-      res.json(jwt_token);
+      res.status(200).json(jwt_token);
 
     }
     catch(err){

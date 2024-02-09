@@ -17,9 +17,6 @@ const projectSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User"
     },
-    reviewer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Reviewer"
-    },
+    reviewer: String
 })
 module.exports = mongoose.model("Project",projectSchema)

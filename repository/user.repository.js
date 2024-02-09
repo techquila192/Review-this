@@ -1,11 +1,16 @@
 const user = require("../model/user.model")
 const project = require("../model/project.model")
+
 const userFunctions = {
     addUser : async (github)=>{
         const newUser = new user({
             github : github
         })
         return await newUser.save()
+    },
+    getUserID : async (id)=>{
+        const result = await userFunctions.findOne({_id: id})
+        return result
     },
     getUser : async (github)=>{
         const result = await user.findOne({github:github})
@@ -29,6 +34,10 @@ const userFunctions = {
     },
     deleteUser : async (github)=>{
         const result = await user.deleteOne({github:github})
+        return result
+    },
+    getUserProject : async (github) =>{
+        const result = await project.find({projectManager:(await userFunctions.getUser(github))._id})
         return result
     }
 }

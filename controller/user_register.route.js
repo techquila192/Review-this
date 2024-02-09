@@ -2,8 +2,8 @@ const express=require('express');
 const router= express.Router();
 const userFunctions = require("../repository/user.repository");
 const jwt = require('jsonwebtoken');
-const {OAuth2Client} = require('google-auth-library');
-const client = new OAuth2Client();
+/*const {OAuth2Client} = require('google-auth-library');
+const client = new OAuth2Client();*/
 const secret_key = process.env.JWT_SECRET;
 const axios=require('axios');
 const {Octokit} = require("octokit");
@@ -43,13 +43,15 @@ router.get('/user-github-login', async (req,res) => {
       console.log(user_exists);
       if (!user_exists)
       {
-      // add user info to body and redirect to sign up
-      res.send("Sign up");
-      //sign up page
+      
+      const result = await userFunctions.addUser(username).catch((err)=>{
+      res.status(500).json(err);
+      })
+      
       }
 
       const jwt_token=jwt.sign({ username: username, name:name, picture:picture , type : "user", token : access_token},secret_key);
-      res.json(jwt_token);
+      res.status(200).json(jwt_token);
 
     }
     catch(err){

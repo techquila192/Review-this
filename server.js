@@ -14,7 +14,7 @@ app.use(express.json())
 
 app.get("/", (req, res) => {
     res.render('server.ejs',{client_id: clientID, origin: req.protocol + '://' + req.get('host')});
-    console.log(req.get('Host'));
+    
     //res.send("Home route")
 })
 

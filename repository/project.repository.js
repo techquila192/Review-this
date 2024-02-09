@@ -9,7 +9,7 @@ const projectFunctions= {
         return result
     },
     addProject : async(name , description , startDate , endDate , projectManager, github_url)=>{
-        const managerId = await user.findOne({email:projectManager})
+        const managerId = await user.findOne({github:projectManager})
         const newProject = new project({
             name:name,
             github_url:github_url,
@@ -34,7 +34,11 @@ const projectFunctions= {
         return result
     },
     addFork: async (project_id,fork_url) =>{
-        const result = await project.updateOne({_id:project_id},{$set:{fork_url:fork_url}});
+        const result = await project.updateOne({_id:project_id},{$set:{fork_url:fork_url}})
+        return result
+    },
+    removeReviewer: async (project_id) =>{
+        const result = await project.updateOne({_id:project_id},{$set:{reviewer:"",fork_url:""}})
         return result
     }
 }
