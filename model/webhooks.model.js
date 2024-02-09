@@ -7,6 +7,11 @@ const HookSchema = mongoose.Schema({
     projectID: {
         type:String, 
         required:true
+    },
+    owner : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Reviewer",
+        required:true
     }
 
 })

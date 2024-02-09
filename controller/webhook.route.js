@@ -6,15 +6,20 @@ const deliveryDb = require('../model/deliveries.model.js');
 const projectFunctions = require("../repository/project.repository.js")
 
 router.post('/github-delivery', authWebhook, async (req, res) => {
+const hook_id = req.headers['x-github-hook-id']
+const webhookEntry = await webhookDb.findOne({hook_id: hook_id}).catch((err)=> console.log(err.message));
+if(!webhookEntry) 
+{
+    res.status(404).send("Hook removed")
+    return
+}
 const eventType=req.headers['x-github-event']
 if(eventType=='ping')
 {
 res.status(200).send("Successfully delivered")
 return
 }
-const hook_id = req.headers['x-github-hook-id'] 
 const timestamp = new Date()
-const webhookEntry = await webhookDb.findOne({hook_id: hook_id}).catch((err)=> console.log(err.message));
 const project = await projectFunctions.getProjectByID(webhookEntry.projectID).catch((err)=> console.log(err.message));
 const user = project.projectManager
 const reviewer = project.reviewer

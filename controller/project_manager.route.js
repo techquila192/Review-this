@@ -24,9 +24,12 @@ router.patch('/insert-reviewer',async (req,res)=>{
 
 router.patch('/remove-reviewer',async (req,res)=>{
     const {project_id} = req.body;
+    const reviewer_id = (await projectFunctions.getProjectByID(project_id)).reviewer
     const result=await projectFunctions.removeReviewer(project_id).catch((err)=>{
         res.status(500).json(err.message);
     })
+    //remove hook from db
+    await webhookDb.deleteOne({projectID: project_id, owner: reviewer_id}).catch((err)=>{res.status(500).json(err.message)})
     res.status(200).json(result);
 })
 
@@ -89,12 +92,12 @@ router.post('/add-fork',async (req,res)=>{
           })
     
     const hook_id=wh_create.data.id            
-    const webhookEntry=new webhookDb({hook_id:hook_id,projectID:project_id})
+    const webhookEntry=new webhookDb({hook_id:hook_id, projectID:project_id, owner: reviewerId})
     const wh_save=await webhookEntry.save().catch((err) => {err.message })
     const result = await projectFunctions.addFork(project_id,fork_url).catch((err)=>{
         res.status(err).json(err);
     })
-    res.status(200).json(result);
+    res.status(200).send("Fork registered successfully!\nWebhook created successfully!");
     }
     else
     {
