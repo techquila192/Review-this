@@ -23,6 +23,11 @@ router.patch('/insert-reviewer',async (req,res)=>{
 })
 
 router.patch('/remove-reviewer',async (req,res)=>{
+    if(req.body.type!="user")
+    {
+        res.status(401).send("Permission denied")
+        return
+    }
     const {project_id} = req.body;
     const reviewer_id = (await projectFunctions.getProjectByID(project_id)).reviewer
     const result=await projectFunctions.removeReviewer(project_id).catch((err)=>{
