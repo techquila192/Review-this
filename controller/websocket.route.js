@@ -37,7 +37,6 @@ changeStream.on('change', async (change) => {
         return
     }
     const entry = change.fullDocument
-    console.log(clientSockets)
     for(item of clientSockets)
     {
         const socket=item.socket
@@ -94,8 +93,7 @@ chatNamespace.on('connection',async (socket) => {
     jwt_user = await userFunctions.getUser(token.username) 
     else
     jwt_user = await reviewerFunctions.getReviewer(token.username)
-
-    if(jwt_user._id != project.projectManager && jwt_user._id != project.reviewer)
+    if(jwt_user._id != project.projectManager.toString() && jwt_user._id != project.reviewer)
     {
         //not permitted to chat about this project
         return 
@@ -103,9 +101,6 @@ chatNamespace.on('connection',async (socket) => {
     
     
     socket.join(project_id)
-    
-    //console.log(io.sockets.adapter.rooms)
-    
     
     
     
@@ -120,10 +115,8 @@ chatNamespace.on('connection',async (socket) => {
         await new chat(data_ob).save().catch(error => console.log(error.message)); //in receiver check that sender id is not the same 
         
 
-
         const adapter = chatNamespace.in(project_id).adapter;
         const socketsInRoom = [...adapter.rooms.get(project_id) || []];
-        
         for (const socketId of socketsInRoom) 
         {
         
